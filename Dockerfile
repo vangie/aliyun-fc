@@ -36,14 +36,7 @@ RUN apt-get update && apt-get install -y \
 # Suppress opencv error: "libdc1394 error: Failed to initialize libdc1394"
 RUN ln /dev/null /dev/raw1394
 
-# Copy all files to home directory.
-COPY pom.xml .
-
 # Generate usernames
 RUN for i in $(seq 10000 10999); do \
         echo "user$i:x:$i:$i::/tmp:/usr/sbin/nologin" >> /etc/passwd; \
     done
-
-#download all the dependencies
-RUN ["mvn", "clean", "install"]
-RUN ["mvn", "dependency:go-offline"]
